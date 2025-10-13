@@ -25,8 +25,6 @@ Windowsでの実行しか想定していません。マルチプラットフォ�
 ルートのフォルダの下のフォルダについて説明していきます。
 * java  
     その名の通りJavaのコードを書いていきます。この下のHackShooterフォルダをIntelliJ IDEAで何とかしてインポートしたら、コードをポチポチして実行しましょう。  
-    gradle run でとりあえずアプリを実行でき、
-    gradle jpackage で後述のbuildフォルダに動くアプリケーションを出力します。
 * native  
     JNI(Java Native Interface)を使って、OS(Windows)の機能で実装する部分を書いていきます。  
     native\windows\HackShooter\HackShooter.slnをVisual Studioで起動できると思います。コードを書いたら実行ボタンを押してください。
