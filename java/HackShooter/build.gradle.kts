@@ -36,9 +36,11 @@ tasks.jar{
         }
     }
 
-    copy{
-        from(archiveFile.get())
-        into(layout.projectDirectory.asFile.parentFile.parentFile.toString() + "/build/bin/windows")
+    doLast {
+        copy {
+            from(archiveFile.get())
+            into(layout.projectDirectory.asFile.parentFile.parentFile.toString() + "/build/bin/windows")
+        }
     }
 }
 
