@@ -17,6 +17,7 @@ public class Main {
     static void main() {
         if(IS_WINDOWS) {
             System.loadLibrary("HackShooter");
+            new Initializer().copyPage();
         }
 
         //TIP ハイライトされたテキストにキャレットがある状態で <shortcut actionId="ShowIntentionActions"/> を押すと
