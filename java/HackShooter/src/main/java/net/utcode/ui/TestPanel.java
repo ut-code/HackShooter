@@ -2,6 +2,11 @@ package net.utcode.ui;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 public class TestPanel extends JPanel {
     TestPanel(){
