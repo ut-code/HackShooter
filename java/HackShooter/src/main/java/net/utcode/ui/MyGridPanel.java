@@ -32,8 +32,8 @@ public class MyGridPanel extends JPanel {
         myGridLayout.setGaps(rowGap, columnGap);
     }
 
-    public Component add(Component comp, int rowStart, int rowEnd, int columnStart, int columnEnd){
-        myGridLayout.addLocation(rowStart, rowEnd, columnStart, columnEnd);
+    public Component add(Component comp, int left, int right, int top, int bottom){
+        myGridLayout.addLocation(left, right, top, bottom);
         return super.add("", comp);
     }
 

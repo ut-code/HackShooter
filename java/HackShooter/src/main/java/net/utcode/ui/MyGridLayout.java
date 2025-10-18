@@ -61,8 +61,8 @@ public class MyGridLayout implements LayoutManager {
         this.paddingRight = paddingRight;
     }
 
-    public void addLocation(int rowStart, int rowEnd, int columnStart, int columnEnd){
-        int[] location = {rowStart, rowEnd, columnStart, columnEnd};
+    public void addLocation(int left, int right, int top, int bottom){
+        int[] location = {left, right, top, bottom};
         locations.add(location);
     }
 
