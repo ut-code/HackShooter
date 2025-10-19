@@ -16,6 +16,7 @@ public class Main {
 
     static void main() {
         if(IS_WINDOWS) {
+            System.out.println(System.getProperty("user.dir"));
             System.loadLibrary("HackShooter");
             Initializer.copyPageIfNotExists();
         }
