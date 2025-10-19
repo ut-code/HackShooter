@@ -29,6 +29,12 @@ tasks.compileJava{
     options.compilerArgs.addAll(listOf("-h", layout.projectDirectory.asFile.parentFile.parentFile.toString() + "/build/jni-headers"))
 }
 
+tasks.run{
+    doFirst {
+        workingDir = file(layout.projectDirectory.asFile.parentFile.parentFile.toString() + "/build/bin/windows")
+    }
+}
+
 tasks.jar{
     doFirst{
         manifest{
