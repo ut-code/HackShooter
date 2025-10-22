@@ -5,63 +5,116 @@ import net.utcode.webview.WebViewManager;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.IOException;
 
 public class MainPanel extends MyGridPanel {
 
     JFrame hackFrame;
 
-    WebViewManager manager = new WebViewManager();
-
-    long hThread = 0;
+    JLabel descriptionLabel;
 
     MainPanel(){
-        super(4, 4);
+        super(20, 40);
         hackFrame = new HackFrame();
         setPadding(10);
-        setGaps(5, 5);
-        setBackground(new Color(0xf9f9f9));
-        JButton startGameButton = new JButton("ゲーム");
-        startGameButton.setBackground(new Color(0xf78800));
-        startGameButton.setForeground(new Color(0xffffff));
+        setPaddingLeft(0);
+        setPaddingBottom(0);
+        setGaps(0, 5);
+        setBackground(new Color(0x4f0077));
+        JLabel titleLabel = new JLabel("Hack Shooter");
+        titleLabel.setFont(new Font("SansSerif", Font.PLAIN, 90));
+        titleLabel.setForeground(new Color(0xffe500));
+        add(titleLabel, 0, 20, 0, 2);
+        JLabel subtitleLabel = new JLabel("────ハッキングで無双────");
+        subtitleLabel.setFont(new Font("SansSerif", Font.PLAIN, 30));
+        subtitleLabel.setForeground(new Color(0xffe500));
+        add(subtitleLabel, 22, 38, 1, 2);
+        descriptionLabel = new JLabel();
+        descriptionLabel.setFont(new Font("SansSerif", Font.PLAIN, 30));
+        descriptionLabel.setOpaque(true);
+        descriptionLabel.setBackground(Color.BLACK);
+        descriptionLabel.setForeground(Color.WHITE);
+        add(descriptionLabel, 0, 24, 18, 19);
+        JButton startGameButton = new JButton("<html><body><p>ゲーム</p><h1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;を始める</h1></body></html>");
+        startGameButton.setBackground(new Color(0x88ff33));
+        startGameButton.setForeground(new Color(0x4f0077));
         startGameButton.setBorderPainted(false);
-        startGameButton.setFont(new Font("SansSerif", Font.PLAIN, 80));
+        startGameButton.setFont(new Font("SansSerif", Font.PLAIN, 170));
         startGameButton.setFocusPainted(false);
         startGameButton.addActionListener(e -> {
-            /*
-            String[] commands = {"cmd", "/c", "start ", "msedge", "C:/Users/" + System.getProperty("user.name") + "/HackShooter/index.html"};
-            try {
-                Runtime.getRuntime().exec(commands);
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
-            */
-//            new SwingWorker<Void, Void>(){
-//                @Override
-//                protected Void doInBackground(){
-//                    hThread = manager.createWindow();
-//                    return null;
-//                }
-//            }.execute();
-            manager.createWindow();
+            WebViewManager.createWindow();
         });
-        add(startGameButton, 0, 2, 0, 2);
-        JButton startHackingButton = new JButton("改造");
-        startHackingButton.setBackground(new Color(0xff0000));
-        startHackingButton.setForeground(new Color(0xffffff));
+        startGameButton.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                descriptionLabel.setText("シューティングゲームを起動します。");
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
+        add(startGameButton, 1, 24, 4, 16);
+        JButton startHackingButton = new JButton("<html><body><p>改造</p><h1>を始める</h1></body></html>");
+        startHackingButton.setBackground(new Color(0x0099ff));
+        startHackingButton.setForeground(new Color(0x4f0077));
         startHackingButton.setBorderPainted(false);
         startHackingButton.setFocusPainted(false);
-        startHackingButton.setFont(new Font("SansSerif", Font.PLAIN, 60));
+        startHackingButton.setFont(new Font("SansSerif", Font.PLAIN, 150));
         startHackingButton.addActionListener(e -> {
             hackFrame.setVisible(true);
         });
-        add(startHackingButton, 3, 3, 0, 1);
+        startHackingButton.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                descriptionLabel.setText("プログラミングでゲームをハッキングします。");
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
+        add(startHackingButton, 26, 38, 4, 16);
         JButton resetButton = new JButton("リセット");
-        resetButton.setBackground(new Color(0x0021ff));
+        resetButton.setBackground(new Color(0xff3300));
         resetButton.setForeground(new Color(0xffffff));
         resetButton.setBorderPainted(false);
         resetButton.setFocusPainted(false);
-        resetButton.setFont(new Font("SansSerif", Font.PLAIN, 35));
+        resetButton.setFont(new Font("SansSerif", Font.PLAIN, 30));
         resetButton.addActionListener(e -> {
             int answer1 = JOptionPane.showConfirmDialog(this, "変更をリセットします。現在の変更は保存しましたか？", "確認", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
             if(answer1 == JOptionPane.YES_OPTION){
@@ -69,7 +122,7 @@ public class MainPanel extends MyGridPanel {
                 if(answer2 == JOptionPane.YES_OPTION){
                     int answer3 = JOptionPane.showConfirmDialog(this, "ほんとのほんとにいいですね？", "確認", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
                     if(answer3 == JOptionPane.YES_OPTION){
-                        manager.destroyWindow();
+                        WebViewManager.destroyWindow();
                         if(Initializer.init()){
                             JOptionPane.showMessageDialog(this, "リセットしました");
                         }
@@ -77,6 +130,33 @@ public class MainPanel extends MyGridPanel {
                 }
             }
         });
-        add(resetButton, 3, 3, 2, 2);
+        resetButton.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                descriptionLabel.setText("ハッキングをリセットして元に戻します。");
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
+        add(resetButton, 26, 32, 18, 19);
+
     }
 }
