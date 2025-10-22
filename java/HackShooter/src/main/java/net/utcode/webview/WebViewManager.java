@@ -1,6 +1,6 @@
 package net.utcode.webview;
 
 public class WebViewManager {
-    public native void createWindow();
-    public native void destroyWindow();
+    public static native void createWindow();
+    public static native void destroyWindow();
 }
