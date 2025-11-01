@@ -30,6 +30,7 @@ public class EditPanel extends JPanel {
         jTextArea = new JTextArea();
         jTextArea.setFont(new Font(Font.DIALOG, Font.PLAIN, 15));
         jTextArea.setText(readFromFile());
+        jTextArea.setCaretPosition(0);
         jTextArea.revalidate();
         jTextArea.repaint();
         jTextArea.getDocument().addUndoableEditListener(undoManager);
@@ -67,6 +68,11 @@ public class EditPanel extends JPanel {
 
     public void redo(){
         if(undoManager.canRedo()) undoManager.redo();
+    }
+
+    public void reset(){
+        jTextArea.setText(readFromFile());
+        jTextArea.setCaretPosition(0);
     }
 
     public String readFromFile(){
