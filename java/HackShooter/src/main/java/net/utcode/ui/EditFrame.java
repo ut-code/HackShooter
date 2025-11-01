@@ -35,6 +35,7 @@ public class EditFrame extends JFrame{
         JMenu menu2 = new JMenu("編集");
         JMenuItem item2_1 = new JMenuItem("元に戻す");
         JMenuItem item2_2 = new JMenuItem("やり直し");
+        JMenuItem item2_3 = new JMenuItem("最後の保存まで戻す");
         item2_1.addActionListener((e) -> {
             editPanel.undo();
         });
@@ -43,8 +44,12 @@ public class EditFrame extends JFrame{
             editPanel.redo();
         });
         item2_2.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, InputEvent.CTRL_DOWN_MASK | InputEvent.SHIFT_DOWN_MASK));
+        item2_3.addActionListener((e) -> {
+            editPanel.reset();
+        });
         menu2.add(item2_1);
         menu2.add(item2_2);
+        menu2.add(item2_3);
         jMenuBar.add(menu1);
         jMenuBar.add(menu2);
         setJMenuBar(jMenuBar);
