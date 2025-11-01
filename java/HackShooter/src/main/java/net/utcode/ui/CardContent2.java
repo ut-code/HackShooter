@@ -4,17 +4,19 @@ import javax.swing.*;
 import java.io.IOException;
 
 public class CardContent2 extends JPanel {
+    EditFrame editFrame;
+
     public CardContent2(){
         super();
-        JButton button = new JButton("エクスプローラーを開く");
+        editFrame = new EditFrame();
+        JButton button = new JButton("テキストエディタを開く");
         button.addActionListener(e -> {
-            String[] command = {"explorer", "C:\\Users\\" + System.getProperty("user.name") + "\\HackShooter"};
-            try {
-                Runtime.getRuntime().exec(command);
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
+            editFrame.setVisible(true);
         });
         add(button);
+    }
+
+    public void dispose(){
+        editFrame.dispose();
     }
 }

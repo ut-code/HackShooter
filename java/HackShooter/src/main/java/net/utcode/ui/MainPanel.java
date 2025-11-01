@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class MainPanel extends MyGridPanel {
@@ -24,23 +25,22 @@ public class MainPanel extends MyGridPanel {
         setGaps(0, 5);
         setBackground(new Color(0x4f0077));
         JLabel titleLabel = new JLabel("Hack Shooter");
-        titleLabel.setFont(new Font("SansSerif", Font.PLAIN, 90));
+        titleLabel.setFont(new Font(Font.DIALOG, Font.ITALIC | Font.BOLD, 90));
         titleLabel.setForeground(new Color(0xffe500));
         add(titleLabel, 0, 20, 0, 2);
         JLabel subtitleLabel = new JLabel("────ハッキングで無双────");
-        subtitleLabel.setFont(new Font("SansSerif", Font.PLAIN, 30));
+        subtitleLabel.setFont(new Font("Serif", Font.ITALIC, 30));
         subtitleLabel.setForeground(new Color(0xffe500));
         add(subtitleLabel, 22, 38, 1, 2);
         descriptionLabel = new JLabel();
-        descriptionLabel.setFont(new Font("SansSerif", Font.PLAIN, 30));
+        descriptionLabel.setFont(new Font("Serif", Font.ITALIC, 30));
         descriptionLabel.setOpaque(true);
         descriptionLabel.setBackground(Color.BLACK);
         descriptionLabel.setForeground(Color.WHITE);
         add(descriptionLabel, 0, 24, 18, 19);
-        JButton startGameButton = new JButton("<html><body><p>ゲーム</p><h1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;を始める</h1></body></html>");
-        startGameButton.setBackground(new Color(0x88ff33));
-        startGameButton.setForeground(new Color(0x4f0077));
+        JButton startGameButton = new JButton();
         startGameButton.setBorderPainted(false);
+        startGameButton.setContentAreaFilled(false);
         startGameButton.setFont(new Font("SansSerif", Font.PLAIN, 170));
         startGameButton.setFocusPainted(false);
         startGameButton.addActionListener(e -> {
@@ -72,13 +72,15 @@ public class MainPanel extends MyGridPanel {
 
             }
         });
+        startGameButton.setIcon(new ImageIcon(new ImageIcon(getClass().getClassLoader().getResource("buttons/start_game.png")).getImage().getScaledInstance(702, 406, Image.SCALE_SMOOTH)));
+        startGameButton.setPressedIcon(new ImageIcon(new ImageIcon(getClass().getClassLoader().getResource("buttons/start_game_clicked.png")).getImage().getScaledInstance(702, 406, Image.SCALE_SMOOTH)));
+        //このサイズ調整頭悪すぎてなんとかしたいけどswingの柔軟性終わってて大変そう
+        //でもこれだとわざわざグリッドレイアウト作った意味ないもんな……
         add(startGameButton, 1, 24, 4, 16);
-        JButton startHackingButton = new JButton("<html><body><p>改造</p><h1>を始める</h1></body></html>");
-        startHackingButton.setBackground(new Color(0x0099ff));
-        startHackingButton.setForeground(new Color(0x4f0077));
+        JButton startHackingButton = new JButton();
+        startHackingButton.setContentAreaFilled(false);
         startHackingButton.setBorderPainted(false);
         startHackingButton.setFocusPainted(false);
-        startHackingButton.setFont(new Font("SansSerif", Font.PLAIN, 150));
         startHackingButton.addActionListener(e -> {
             hackFrame.setVisible(true);
         });
@@ -108,6 +110,8 @@ public class MainPanel extends MyGridPanel {
 
             }
         });
+        startHackingButton.setIcon(new ImageIcon(new ImageIcon(getClass().getClassLoader().getResource("buttons/start_hacking.png")).getImage().getScaledInstance(378, 406, Image.SCALE_SMOOTH)));
+        startHackingButton.setPressedIcon(new ImageIcon(new ImageIcon(getClass().getClassLoader().getResource("buttons/start_hacking_clicked.png")).getImage().getScaledInstance(378, 406, Image.SCALE_SMOOTH)));
         add(startHackingButton, 26, 38, 4, 16);
         JButton resetButton = new JButton("リセット");
         resetButton.setBackground(new Color(0xff3300));
@@ -124,6 +128,8 @@ public class MainPanel extends MyGridPanel {
                     if(answer3 == JOptionPane.YES_OPTION){
                         WebViewManager.destroyWindow();
                         if(Initializer.init()){
+                            hackFrame.dispose();
+                            hackFrame = new HackFrame();
                             JOptionPane.showMessageDialog(this, "リセットしました");
                         }
                     }
