@@ -57,6 +57,9 @@ LRESULT CALLBACK WebViewWndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
 			if (webview) {
 				webview->Reload();
 			}
+			if (webviewController) {
+				webviewController->MoveFocus(COREWEBVIEW2_MOVE_FOCUS_REASON_PROGRAMMATIC);
+			}
 			break;
 		}
 		return 0;

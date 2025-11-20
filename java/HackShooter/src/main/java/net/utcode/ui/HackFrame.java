@@ -7,7 +7,8 @@ public class HackFrame extends JFrame {
     public HackFrame() {
         super();
         setDefaultCloseOperation(HIDE_ON_CLOSE);
-        setSize(900, 600);
+        setSize(1350, 900);
+        setResizable(false);
         hackPanel = new HackPanel();
         add(hackPanel);
     }

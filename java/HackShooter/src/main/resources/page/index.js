@@ -1,3 +1,40 @@
+//ここはてきのUFOのつよさをきめているよ！
+const HP_ENEMY = 4000;               //たいりょく
+const ATTACK_ENEMY = 200;           //こうげきりょく
+const DIFENCE_ENEMY = 100;          //ぼうぎょりょく
+const SPEED_ENEMY = 400;            //UFOのスピード
+const BULLET_SPEED_ENEMY = 500;     //たまのスピード
+
+//ここはじぶんのうちゅうせんのつよさをきめているよ！
+const HP_PLAYER = 300;                          //たいりょく
+const ATTACK_PLAYER = 100;                      //こうげきりょく
+const DIFENCE_PLAYER = 100;                     //ぼうぎょりょく
+const SPEED_PLAYER = 500;                       //うちゅうせんのスピード
+const BULLET_SPEED_PLAYER = 1000;               //たまのスピード
+const COOLDOWN_PLAYER = 30;                     //たまをうったあとつぎをうてるようになるまでのじかん
+const SPECIAL_GUAGE_PLAYER = 10000;              //ひっさつわざをためないといけないりょう
+const SPECIAL_GUAGE_EFFICIENCY_PLAYER = 1;      //ひっさつわざのたまりやすさ
+
+//ここはいんせきのつよさをきめているよ！
+const ATTACK_ASTEROID = 1000;           //こうげきりょく
+const SPEED_ASTEROID = 1000;            //スピード
+const PROBABILITY_ASTEROID = 0.001;     //でやすさ(さいだい1)
+
+//ここはかいふくアイテムのつよさをきめているよ！
+const SPEED_RECOVERY_ITEM = 500;        //スピード
+const PROBABILITY_RECOVERY_ITEM = 2e-4; //でやすさ(さいだい1)
+const AMOUNT_RECOVERY_ITEM = 100;       //かいふくりょう
+
+//ここはこうげきりょくアップアイテムのつよさをきめているよ！
+const SPEED_BUFF_ITEM = 500;            //スピード
+const PROBABILITY_BUFF_ITEM = 1e-3;     //でやすさ(さいだい1)
+const MAGNIFICATION_BUFF_ITEM = 1.2;    //どれだけこうげきりょくをあげるか
+
+//ここはひっさつわざチャージアイテムのつよさをきめているよ！
+const SPEED_SPECIAL_CHARGE_ITEM = 500;              //スピード
+const PROBABILITY_SPECIAL_CHARGE_ITEM = 0.001;      //でやすさ(さいだい1)
+const AMOUNT_SPECIAL_CHARGE_ITEM = 3000;            //ひっさつわざをどれだけためるか
+
 import { r as requirePhaser } from "./phaser.js";
 requirePhaser();
 class EnemyHP {
@@ -601,31 +638,7 @@ class PlayerRecoveryTexts {
     }
   }
 }
-const HP_ENEMY = 4e3;
-const ATTACK_ENEMY = 200;
-const DIFENCE_ENEMY = 100;
-const SPEED_ENEMY = 400;
-const BULLET_SPEED_ENEMY = 500;
-const HP_PLAYER = 300;
-const ATTACK_PLAYER = 100;
-const DIFENCE_PLAYER = 100;
-const SPEED_PLAYER = 500;
-const BULLET_SPEED_PLAYER = 1e3;
-const COOLDOWN_PLAYER = 30;
-const SPECIAL_GUAGE_PLAYER = 1e4;
-const SPECIAL_GUAGE_EFFICIENCY_PLAYER = 1;
-const ATTACK_ASTEROID = 1e3;
-const SPEED_ASTEROID = 1e3;
-const PROBABILITY_ASTEROID = 1e-3;
-const SPEED_RECOVERY_ITEM = 500;
-const PROBABILITY_RECOVERY_ITEM = 2e-4;
-const AMOUNT_RECOVERY_ITEM = 100;
-const SPEED_BUFF_ITEM = 500;
-const PROBABILITY_BUFF_ITEM = 1e-3;
-const MAGNIFICATION_BUFF_ITEM = 1.2;
-const SPEED_SPECIAL_CHARGE_ITEM = 500;
-const PROBABILITY_SPECIAL_CHARGE_ITEM = 1e-3;
-const AMOUNT_SPECIAL_CHARGE_ITEM = 3e3;
+
 class GameScene extends Phaser.Scene {
   cursors;
   gameOver = false;
