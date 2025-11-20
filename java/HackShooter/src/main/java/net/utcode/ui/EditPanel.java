@@ -78,7 +78,7 @@ public class EditPanel extends JPanel {
     public String readFromFile(){
         StringBuilder sb = new StringBuilder();
         try{
-            Path path = Paths.get("C:\\Users\\" + System.getProperty("user.name") + "\\HackShooter\\index.html");
+            Path path = Paths.get("C:\\Users\\" + System.getProperty("user.name") + "\\HackShooter\\index.js");
             List<String> lines = Files.readAllLines(path);
             for(int i = 0; i < lines.size(); i++){
                 sb.append(lines.get(i));
@@ -93,7 +93,7 @@ public class EditPanel extends JPanel {
     public void saveFile(){
         FileWriter fw = null;
         try{
-            fw = new FileWriter("C:\\Users\\" + System.getProperty("user.name") + "\\HackShooter\\index.html");
+            fw = new FileWriter("C:\\Users\\" + System.getProperty("user.name") + "\\HackShooter\\index.js");
             PrintWriter pw = new PrintWriter(new BufferedWriter(fw));
             pw.print(jTextArea.getText());
             pw.close();

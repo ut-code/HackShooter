@@ -120,18 +120,18 @@ public class MainPanel extends MyGridPanel {
         resetButton.setFocusPainted(false);
         resetButton.setFont(new Font("SansSerif", Font.PLAIN, 30));
         resetButton.addActionListener(e -> {
-            int answer1 = JOptionPane.showConfirmDialog(this, "変更をリセットします。現在の変更は保存しましたか？", "確認", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+            int answer1 = JOptionPane.showConfirmDialog(this, "変更をリセットします。", "確認", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
             if(answer1 == JOptionPane.YES_OPTION){
                 int answer2 = JOptionPane.showConfirmDialog(this, "今までの変更は戻せません。いいですね？", "確認", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
                 if(answer2 == JOptionPane.YES_OPTION){
                     int answer3 = JOptionPane.showConfirmDialog(this, "ほんとのほんとにいいですね？", "確認", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
                     if(answer3 == JOptionPane.YES_OPTION){
+                        Initializer.reset();
                         WebViewManager.destroyWindow();
-                        if(Initializer.init()){
-                            hackFrame.dispose();
-                            hackFrame = new HackFrame();
-                            JOptionPane.showMessageDialog(this, "リセットしました");
-                        }
+                        hackFrame.dispose();
+                        hackFrame = new HackFrame();
+                        JOptionPane.showMessageDialog(this, "リセットしました");
+
                     }
                 }
             }
@@ -162,7 +162,6 @@ public class MainPanel extends MyGridPanel {
 
             }
         });
-        add(resetButton, 26, 32, 18, 19);
-
+        add(resetButton, 31, 38, 18, 19);
     }
 }
