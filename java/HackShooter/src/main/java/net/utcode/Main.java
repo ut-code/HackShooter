@@ -1,5 +1,6 @@
 package net.utcode;
 
+import net.utcode.server.ServerThread;
 import net.utcode.ui.MainFrame;
 
 import javax.swing.*;
@@ -18,7 +19,8 @@ public class Main {
         if(IS_WINDOWS) {
             System.out.println(System.getProperty("user.dir"));
             System.loadLibrary("HackShooter");
-            Initializer.copyPageIfNotExists();
+            Initializer.init();
+            new ServerThread().start();
         }
 
         //TIP ハイライトされたテキストにキャレットがある状態で <shortcut actionId="ShowIntentionActions"/> を押すと

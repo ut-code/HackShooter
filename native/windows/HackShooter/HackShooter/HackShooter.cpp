@@ -6,7 +6,7 @@
 #include <wrl.h>
 #include <wrl/client.h>
 #include <wil/com.h>
-
+#include "WebView2EnvironmentOptions.h"
 #include <Shlwapi.h>
 
 #pragma comment(lib, "Shlwapi.lib")
@@ -33,8 +33,6 @@ static TCHAR szTitle[] = TEXT("WebView sample");
 
 
 LRESULT CALLBACK WebViewWndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
-	TCHAR greeting[] = TEXT("Hello, Windows desktop!");
-
 	switch (msg)
 	{
 	case WM_SIZE:
@@ -42,13 +40,15 @@ LRESULT CALLBACK WebViewWndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
 			RECT bounds;
 			GetClientRect(hwnd, &bounds);
 			bounds.top += 30;
+			bounds.bottom = bounds.top + 630;
+			bounds.right = bounds.left + 830;
 			webviewController->put_Bounds(bounds);
-			
 		};
 		break;
 	case WM_DESTROY:
 		globalHwnd = NULL;
 		hThread = NULL;
+		webviewController = nullptr;
 		PostQuitMessage(0);
 		break;
 	case WM_COMMAND:
@@ -60,9 +60,17 @@ LRESULT CALLBACK WebViewWndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
 			break;
 		}
 		return 0;
+	case WM_PAINT: {
+		HDC hdc;
+		PAINTSTRUCT ps;
+		hdc = BeginPaint(hwnd, &ps);
+		RECT rect = { 10, 660, 1000, 700 };
+		DrawText(hdc, TEXT("操作方法　↑↓キー：移動, →←キー：方向転換, スペースキー：発射, シフトキー：必殺技"), -1, &rect, DT_TOP | DT_LEFT);
+		EndPaint(hwnd, &ps);
+	}
+		return DefWindowProc(hwnd, msg, wp, lp);
 	default:
 		return DefWindowProc(hwnd, msg, wp, lp);
-		break;
 	}
 
 	return 0;
@@ -103,7 +111,7 @@ DWORD WINAPI ThreadFunc(LPVOID vdParam) {
 	HWND hwnd = CreateWindow(TEXT("WebView2Window"), TEXT("HackShooter(ゲーム部分)"),
 		WS_OVERLAPPEDWINDOW,
 		CW_USEDEFAULT, CW_USEDEFAULT,
-		CW_USEDEFAULT, CW_USEDEFAULT,
+		1000, 800,
 		NULL, NULL, GetModuleHandle(0), NULL);
 
 	if (hwnd == NULL) return 0;
@@ -112,6 +120,7 @@ DWORD WINAPI ThreadFunc(LPVOID vdParam) {
 
 	ShowWindow(hwnd, SW_SHOWNORMAL);
 	UpdateWindow(hwnd);
+	
 
 	HRESULT hr = CreateCoreWebView2EnvironmentWithOptions(nullptr, nullptr, nullptr,
 		Callback<ICoreWebView2CreateCoreWebView2EnvironmentCompletedHandler>(
@@ -123,6 +132,7 @@ DWORD WINAPI ThreadFunc(LPVOID vdParam) {
 						if (controller != nullptr) {
 							webviewController = controller;
 							webviewController->get_CoreWebView2(&webview);
+							webviewController->MoveFocus(COREWEBVIEW2_MOVE_FOCUS_REASON_PROGRAMMATIC);
 						}
 
 						// Add a few settings for the webview
@@ -137,6 +147,8 @@ DWORD WINAPI ThreadFunc(LPVOID vdParam) {
 						RECT bounds;
 						GetClientRect(hwnd, &bounds);
 						bounds.top += 30;
+						bounds.bottom = bounds.top + 630;
+						bounds.right = bounds.left + 830;
 						webviewController->put_Bounds(bounds);
 
 						// Schedule an async task to navigate to Bing
@@ -145,7 +157,7 @@ DWORD WINAPI ThreadFunc(LPVOID vdParam) {
 						TCHAR name[1024];
 
 						GetUserName(name, &len);
-						StringCchPrintf(path, 1024, L"C:/Users/%s/HackShooter/index.html", name);
+						StringCchPrintf(path, 1024, L"localhost:80", name);
 
 						webview->Navigate(path);
 
@@ -171,16 +183,17 @@ DWORD WINAPI ThreadFunc(LPVOID vdParam) {
 	return 0;
 }
 
-
-JNIEXPORT void JNICALL Java_net_utcode_webview_WebViewManager_createWindow(JNIEnv*, jobject) {
+JNIEXPORT void JNICALL Java_net_utcode_webview_WebViewManager_createWindow(JNIEnv*, jclass) {
 	if (globalHwnd) SetForegroundWindow(globalHwnd);
+	if (webviewController) webviewController->MoveFocus(COREWEBVIEW2_MOVE_FOCUS_REASON_PROGRAMMATIC);
 	if (hThread) return;
 	
 	DWORD dwID;
 	hThread = CreateThread(NULL, 0, ThreadFunc, NULL, 0, &dwID);
+	return;
 }
 
-JNIEXPORT void JNICALL Java_net_utcode_webview_WebViewManager_destroyWindow(JNIEnv*, jobject) {
+JNIEXPORT void JNICALL Java_net_utcode_webview_WebViewManager_destroyWindow(JNIEnv*, jclass) {
 	PostMessage(globalHwnd, WM_CLOSE, NULL, NULL);
 }
 
