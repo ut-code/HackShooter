@@ -16,7 +16,8 @@ public class CardContent2 extends JPanel {
             editFrame.setVisible(true);
         });
         add(button);
-        JLabel label = new JLabel(new ImageIcon(new ImageIcon(getClass().getClassLoader().getResource("slides/スライド2.png")).getImage().getScaledInstance(1200, 675, Image.SCALE_SMOOTH)));
+        int height = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().height;
+        JLabel label = new JLabel(new ImageIcon(new ImageIcon(getClass().getClassLoader().getResource("slides/スライド2.png")).getImage().getScaledInstance(height * 32 / 25, height * 18 / 25, Image.SCALE_SMOOTH)));
         add(label);
     }
 

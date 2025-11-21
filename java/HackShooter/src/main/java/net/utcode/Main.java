@@ -4,6 +4,7 @@ import net.utcode.server.ServerThread;
 import net.utcode.ui.MainFrame;
 
 import javax.swing.*;
+import java.awt.*;
 
 //TIP コードを<b>実行</b>するには、<shortcut actionId="Run"/> を押すか
 // ガターの <icon src="AllIcons.Actions.Execute"/> アイコンをクリックします。

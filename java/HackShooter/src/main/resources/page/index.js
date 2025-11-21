@@ -927,9 +927,14 @@ const config = {
   physics: {
     default: "arcade",
     arcade: {
+      fps: 200,
       //ここをtrueにすると当たり判定が見えるよ
       debug: false
     }
+  },
+  fps: {
+    target: 200,
+    forceSetTimeOut: true
   },
   scene: [GameScene]
 };

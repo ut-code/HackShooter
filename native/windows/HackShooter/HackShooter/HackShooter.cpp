@@ -30,18 +30,22 @@ static wil::com_ptr<ICoreWebView2> webview;
 static TCHAR szWindowClass[] = TEXT("DesktopApp");
 static TCHAR szTitle[] = TEXT("WebView sample");
 
+static int dpi;
 
+static HFONT font;
+static HWND button;
 
 LRESULT CALLBACK WebViewWndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
+	if (!dpi) return DefWindowProc(hwnd, msg, wp, lp);
 	switch (msg)
 	{
 	case WM_SIZE:
 		if (webviewController != nullptr) {
 			RECT bounds;
 			GetClientRect(hwnd, &bounds);
-			bounds.top += 30;
-			bounds.bottom = bounds.top + 630;
-			bounds.right = bounds.left + 830;
+			bounds.top += 30 * dpi / 96;
+			bounds.bottom = bounds.top + 630 * dpi / 96;
+			bounds.right = bounds.left + 830 * dpi / 96;
 			webviewController->put_Bounds(bounds);
 		};
 		break;
@@ -67,11 +71,25 @@ LRESULT CALLBACK WebViewWndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
 		HDC hdc;
 		PAINTSTRUCT ps;
 		hdc = BeginPaint(hwnd, &ps);
-		RECT rect = { 10, 660, 1000, 700 };
+		if(font) SelectObject(hdc, font);
+		RECT rect = { 10 * dpi / 96, 660 * dpi / 96, 1000 * dpi / 96, 700 * dpi / 96};
 		DrawText(hdc, TEXT("操作方法　↑↓キー：移動, →←キー：方向転換, スペースキー：発射, シフトキー：必殺技"), -1, &rect, DT_TOP | DT_LEFT);
 		EndPaint(hwnd, &ps);
 	}
 		return DefWindowProc(hwnd, msg, wp, lp);
+	case WM_DPICHANGED:
+		dpi = HIWORD(wp);
+		font = CreateFont(20 * dpi / 96, 0, 0, 0, FW_NORMAL, FALSE, FALSE, 0, SHIFTJIS_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, VARIABLE_PITCH | FF_SCRIPT, NULL);
+		SetWindowPos(button, NULL, 0, 0, 50 * dpi / 96, 30 * dpi / 96, SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE);
+		SendMessage(button, WM_SETFONT, (WPARAM)font, MAKELPARAM(TRUE, 0));
+		if (webviewController && dpi) {
+			auto controller3 = webviewController.try_query<ICoreWebView2Controller3>();
+			if (controller3)
+			{
+				controller3->put_RasterizationScale((double)96 / dpi);
+			}
+		}
+		return 0;
 	default:
 		return DefWindowProc(hwnd, msg, wp, lp);
 	}
@@ -113,13 +131,19 @@ DWORD WINAPI ThreadFunc(LPVOID vdParam) {
 
 	HWND hwnd = CreateWindow(TEXT("WebView2Window"), TEXT("HackShooter(ゲーム部分)"),
 		WS_OVERLAPPEDWINDOW,
-		CW_USEDEFAULT, CW_USEDEFAULT,
+		0, 0,
 		1000, 800,
 		NULL, NULL, GetModuleHandle(0), NULL);
 
 	if (hwnd == NULL) return 0;
 
 	globalHwnd = hwnd;
+
+	dpi = GetDpiForWindow(hwnd);
+
+	SetWindowPos(hwnd, NULL, 0, 0, 1000 * dpi / 96, 800 * dpi / 96, SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE);
+
+	font = CreateFont( 20 * dpi / 96, 0, 0, 0, FW_NORMAL, FALSE, FALSE, 0, SHIFTJIS_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, VARIABLE_PITCH | FF_SCRIPT, NULL);
 
 	ShowWindow(hwnd, SW_SHOWNORMAL);
 	UpdateWindow(hwnd);
@@ -149,9 +173,9 @@ DWORD WINAPI ThreadFunc(LPVOID vdParam) {
 						// Resize WebView to fit the bounds of the parent window
 						RECT bounds;
 						GetClientRect(hwnd, &bounds);
-						bounds.top += 30;
-						bounds.bottom = bounds.top + 630;
-						bounds.right = bounds.left + 830;
+						bounds.top += 30 * dpi / 96;
+						bounds.bottom = bounds.top + 630 * dpi / 96;
+						bounds.right = bounds.left + 830 * dpi / 96;
 						webviewController->put_Bounds(bounds);
 
 						// Schedule an async task to navigate to Bing
@@ -169,12 +193,14 @@ DWORD WINAPI ThreadFunc(LPVOID vdParam) {
 				return S_OK;
 			}).Get());
 
-	CreateWindow(
+	button = CreateWindow(
 		TEXT("BUTTON"), TEXT("更新"),
 		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-		0, 0, 50, 30,
+		0, 0, 50 * dpi / 96, 30 * dpi / 96,
 		hwnd, (HMENU)BUTTON_RELOAD, GetModuleHandle(0), NULL
 	);
+
+	SendMessage(button, WM_SETFONT, (WPARAM)font, MAKELPARAM(TRUE, 0));
 
 	MSG msg;
 
