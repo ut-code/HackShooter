@@ -1,13 +1,16 @@
 package net.utcode.ui;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class HackFrame extends JFrame {
     HackPanel hackPanel;
     public HackFrame() {
         super();
         setDefaultCloseOperation(HIDE_ON_CLOSE);
-        setSize(900, 600);
+        int height = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().height;
+        setSize(height * 16 / 11, height * 10 / 11);
+        setResizable(false);
         hackPanel = new HackPanel();
         add(hackPanel);
     }
